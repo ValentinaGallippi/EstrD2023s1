@@ -18,7 +18,7 @@ Ejemplo: maxDePar (divisionYResto (suma 5 5) (sucesor 0))-}
 -- sumar (maxDelPar (5,1))  (maxDelPar(divisionYResto 10 (sucesor 1)))
 -- sucesor (sumar (maxDelPar (5,1)) (maxDelPar (divisionYResto 8 2)))
 -- maxDelPar (sumar 5 (sucesor 4),  maxDelPar (divisionYResto 18 9))
--- divisionYResto (sucesor 19)  (maxDelPar(sumar 1 1 , 0)) -> me devuelve una tupla (10,0)
+-- maxDelPar (divisionYResto (sucesor 19)  (maxDelPar(sumar 1 1 , 0)) -> me devuelve una tupla (10,0))
 
 --3. Tipos enumerativos
 --1 
@@ -68,14 +68,7 @@ la calidad de la solución respecto de la cantidad de casos analizados (entre lo
 analizados en esta y cualquier subtarea, deberían ser no más de 9 casos).-}
 
 vieneDespues :: DiaDeSemana -> DiaDeSemana -> Bool
-vieneDespues Martes Lunes = True
-vieneDespues Miercoles Martes = True 
-vieneDespues Jueves Miercoles = True
-vieneDespues Viernes Jueves = True
-vieneDespues Sabado Viernes = True
-vieneDespues Domingo Sabado = True
-vieneDespues Lunes Domingo  = True
-vieneDespues _     _        = False 
+vieneDespues  
 
 --d)
 estaEnElMedio :: DiaDeSemana -> Bool
@@ -110,9 +103,10 @@ yTambien  _   _ = False
 
 --d)
 oBien :: Bool -> Bool -> Bool
-oBien True x   = negar x
-oBien  x True  = negar x
-oBien _   _    = False
+oBien True  _      = True
+oBien False True  = True 
+
+
 
 --4. Registros
 --1.
@@ -132,15 +126,13 @@ edad :: Persona -> Int
 edad (P n e) = e
 
 crecer :: Persona -> Persona
-crecer (P n e) = (P n (e+1))
+crecer (P n e) = (P n e+1 )
 
 cambioDeNombre :: String -> Persona -> Persona
 cambioDeNombre nuevoNombre (P n e) = (P nuevoNombre e )
 
 esMayorQueLaOtra :: Persona -> Persona -> Bool
-esMayorQueLaOtra (P nomb ed) (P n e) = if ed > e 
-                                        then True
-                                        else False          
+esMayorQueLaOtra x  y = edad x > edad y       
 
 laQueEsMayor :: Persona -> Persona -> Persona
 laQueEsMayor (P nomb ed) (P n e) = if ed > e 
@@ -156,10 +148,12 @@ data Entrenador = E String Pokemon Pokemon deriving Show
 --Dados dos Pokémon indica si el primero, en base al tipo, es superior al segundo. Agua
 --supera a fuego, fuego a planta y planta a agua. Y cualquier otro caso es falso
 superaA :: Pokemon -> Pokemon -> Bool
-superaA (Po Agua _) (Po Fuego _)   = True
-superaA (Po Fuego _) (Po Planta _) = True
-superaA (Po Planta _) (Po Agua _)   = True
-superaA (Po _ _) (Po _ _)          = False
+superaA (Po t1 _) (Po t2 _)   = esMismoTipo t1 t2
+
+esMismoTipo :: TipoDePokemon -> TipoDePokemon -> Bool
+esMismoTipo Agua Agua     = True
+esMismoTipo Fuego Fuego   = True
+esMismoTipo Planta Planta = True
 
 pokemon1 = (Po Agua 4)
 pokemon2 = (Po Fuego 6)
@@ -214,8 +208,7 @@ elPrimero (x:_) = x
 
 --4
 sinElPrimero :: [a] -> [a]
-sinElPrimero (_:xx) = xx 
+sinElPrimero (_:xs) = xs
 --5
 splitHead :: [a] -> (a, [a])
-splitHead (x:xx) = (x, xx)
-
+splitHead (x:xs) = (x, xs)
