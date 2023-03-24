@@ -11,7 +11,6 @@ divisionYResto n m = (div n m, mod n m)
 --d)
 maxDelPar :: (Int,Int) -> Int
 maxDelPar (x,y) = if x > y then x else y
-
 {-ejercicio 2
 De 4 ejemplos de expresiones diferentes que denoten el número 10, utilizando en cada expresión a todas las funciones del punto anterior.
 Ejemplo: maxDePar (divisionYResto (suma 5 5) (sucesor 0))-}
@@ -36,7 +35,6 @@ iguales Norte Norte = True
 iguales Sur Sur     = True
 iguales Oeste Oeste = True
 iguales _     _     = False
-
 --c
 {-Dada una dirección devuelve su siguiente, en sentido horario, y suponiendo que no existe
 la siguiente dirección a Oeste. ¾Posee una precondición esta función? ¾Es una función
@@ -68,7 +66,23 @@ la calidad de la solución respecto de la cantidad de casos analizados (entre lo
 analizados en esta y cualquier subtarea, deberían ser no más de 9 casos).-}
 
 vieneDespues :: DiaDeSemana -> DiaDeSemana -> Bool
-vieneDespues  
+vieneDespues x Lunes     = numeroDelDia x > 1
+vieneDespues a Martes    = numeroDelDia a > 2
+vieneDespues b Miercoles = numeroDelDia b > 3
+vieneDespues c Jueves    = numeroDelDia c > 4
+vieneDespues d Viernes   = numeroDelDia d > 5
+vieneDespues e Sabado    = numeroDelDia e > 6
+vieneDespues _ Domingo   = False
+ 
+
+numeroDelDia :: DiaDeSemana -> Int
+numeroDelDia Lunes     = 1
+numeroDelDia Martes    = 2
+numeroDelDia Miercoles = 3
+numeroDelDia Jueves    = 4
+numeroDelDia Viernes   = 5
+numeroDelDia Sabado    = 6
+numeroDelDia Domingo   = 7
 
 --d)
 estaEnElMedio :: DiaDeSemana -> Bool
@@ -103,10 +117,8 @@ yTambien  _   _ = False
 
 --d)
 oBien :: Bool -> Bool -> Bool
-oBien True  _      = True
-oBien False True  = True 
-
-
+oBien False b = b
+oBien True _ = True
 
 --4. Registros
 --1.
@@ -164,6 +176,7 @@ entrenador1 = (E "Claudio" pokemon1 pokemon2)
 
 tipoPokemon :: Pokemon -> TipoDePokemon
 tipoPokemon (Po tipo _ ) = tipo 
+
 
 --Devuelve la cantidad de Pokémon de determinado tipo que posee el entrenador.
 cantidadDePokemonDe :: TipoDePokemon -> Entrenador -> Int
