@@ -121,6 +121,7 @@ oBien :: Bool -> Bool -> Bool
 oBien False b = b
 oBien True _ = True
 
+
 --4. Registros
 --1.
 data Persona = P String Int  deriving Show
