@@ -151,9 +151,9 @@ esMayorQueLaOtra x  y = edad x > edad y
 
 laQueEsMayor :: Persona -> Persona -> Persona
 laQueEsMayor x y = if edad x > edad y
-                                then nombre x
-                                else nombre y
-                                
+                                then  x
+                                else  y
+
 --2
 data Pokemon = Po TipoDePokemon Int deriving Show
                 --Tipo          Porcentaje de bateria 
@@ -164,12 +164,25 @@ data Entrenador = E String Pokemon Pokemon deriving Show
 --Dados dos Pokémon indica si el primero, en base al tipo, es superior al segundo. Agua
 --supera a fuego, fuego a planta y planta a agua. Y cualquier otro caso es falso
 superaA :: Pokemon -> Pokemon -> Bool
-superaA (Po t1 _) (Po t2 _)   = esMismoTipo t1 t2
+superaA p1 p2 = esTipoSuperior (tipoPokemon p1) (tipoPokemon p2)
 
-esMismoTipo :: TipoDePokemon -> TipoDePokemon -> Bool
-esMismoTipo Agua Agua     = True
-esMismoTipo Fuego Fuego   = True
-esMismoTipo Planta Planta = True
+esTipoSuperior :: TipoDePokemon -> TipoDePokemon -> Bool
+esTipoSuperior Agua x       = esFuego x
+esTipoSuperior Fuego      y = esPlanta y
+esTipoSuperior Planta    z  = esAgua z 
+
+
+esFuego :: TipoDePokemon -> Bool
+esFuego Fuego = True
+esFuego _     = False 
+
+esPlanta :: TipoDePokemon -> Bool
+esPlanta Planta = True
+esPlanta _     = False 
+
+esAgua :: TipoDePokemon -> Bool
+esAgua Agua = True
+esAgua _     = False 
 
 pokemon1 = (Po Agua 4)
 pokemon2 = (Po Fuego 6)
