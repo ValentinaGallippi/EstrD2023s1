@@ -147,12 +147,13 @@ cambioDeNombre nuevoNombre (P n e) = P nuevoNombre e
 
 esMayorQueLaOtra :: Persona -> Persona -> Bool
 esMayorQueLaOtra x  y = edad x > edad y   
-    
+
 
 laQueEsMayor :: Persona -> Persona -> Persona
-laQueEsMayor (P nomb ed) (P n e) = if ed > e 
-                                   then (P nomb ed)
-                                   else (P n e)
+laQueEsMayor x y = if edad x > edad y
+                                then nombre x
+                                else nombre y
+                                
 --2
 data Pokemon = Po TipoDePokemon Int deriving Show
                 --Tipo          Porcentaje de bateria 
