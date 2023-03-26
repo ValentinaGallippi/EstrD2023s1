@@ -143,7 +143,7 @@ crecer :: Persona -> Persona
 crecer (P n e) = P n (e+1)
 
 cambioDeNombre :: String -> Persona -> Persona
-cambioDeNombre nuevoNombre (P n e) = (P nuevoNombre e )
+cambioDeNombre nuevoNombre (P n e) = P nuevoNombre e 
 
 esMayorQueLaOtra :: Persona -> Persona -> Bool
 esMayorQueLaOtra x  y = edad x > edad y       
