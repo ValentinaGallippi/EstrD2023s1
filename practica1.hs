@@ -73,6 +73,7 @@ vieneDespues c Jueves    = numeroDelDia c > 4
 vieneDespues d Viernes   = numeroDelDia d > 5
 vieneDespues e Sabado    = numeroDelDia e > 6
 vieneDespues _ Domingo   = False
+
  
 
 numeroDelDia :: DiaDeSemana -> Int
