@@ -146,7 +146,8 @@ cambioDeNombre :: String -> Persona -> Persona
 cambioDeNombre nuevoNombre (P n e) = P nuevoNombre e 
 
 esMayorQueLaOtra :: Persona -> Persona -> Bool
-esMayorQueLaOtra x  y = edad x > edad y       
+esMayorQueLaOtra x  y = edad x > edad y   
+    
 
 laQueEsMayor :: Persona -> Persona -> Persona
 laQueEsMayor (P nomb ed) (P n e) = if ed > e 
