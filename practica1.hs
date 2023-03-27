@@ -148,6 +148,7 @@ laQueEsMayor :: Persona -> Persona -> Persona
 laQueEsMayor x y = if  esMayorQueLaOtra x y 
                                 then  x
                                 else  y
+                                
 
 
 
@@ -210,6 +211,7 @@ unoSiCeroSiNo condicion = if condicion then 1
 
 juntarPokemon :: (Entrenador, Entrenador) -> [Pokemon]
 juntarPokemon (e1, e2) = (pokemones e1) ++ (pokemones e2)
+
 
 pokemones :: Entrenador -> [Pokemon]
 pokemones (E _ p1 p2) = [p1,p2]
