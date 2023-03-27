@@ -154,6 +154,7 @@ laQueEsMayor x y = if  esMayorQueLaOtra x y
 
 
 
+
 --2
 data Pokemon = Po TipoDePokemon Int deriving Show
                 --Tipo          Porcentaje de bateria 
