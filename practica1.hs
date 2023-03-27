@@ -66,13 +66,8 @@ la calidad de la solución respecto de la cantidad de casos analizados (entre lo
 analizados en esta y cualquier subtarea, deberían ser no más de 9 casos).-}
 
 vieneDespues :: DiaDeSemana -> DiaDeSemana -> Bool
-vieneDespues x Lunes     = numeroDelDia x > 1
-vieneDespues a Martes    = numeroDelDia a > 2
-vieneDespues b Miercoles = numeroDelDia b > 3
-vieneDespues c Jueves    = numeroDelDia c > 4
-vieneDespues d Viernes   = numeroDelDia d > 5
-vieneDespues e Sabado    = numeroDelDia e > 6
-vieneDespues _ Domingo   = False
+vieneDespues x y = numeroDelDia x > numeroDelDia y
+
 
  
 
@@ -150,9 +145,11 @@ esMayorQueLaOtra x  y = edad x > edad y
 
 
 laQueEsMayor :: Persona -> Persona -> Persona
-laQueEsMayor x y = if edad x > edad y
+laQueEsMayor x y = if  esMayorQueLaOtra x y 
                                 then  x
                                 else  y
+                                
+
 
 --2
 data Pokemon = Po TipoDePokemon Int deriving Show
@@ -210,7 +207,10 @@ unoSiCeroSiNo condicion = if condicion then 1
                           else 0 
 
 juntarPokemon :: (Entrenador, Entrenador) -> [Pokemon]
-juntarPokemon ((E _ p1 p2), (E _ po1 po2)) = [p1,p2,po1,po2]
+juntarPokemon (e1, e2) = (pokemones e1) ++ (pokemones e2)
+
+pokemones :: Entrenador -> [Pokemon]
+pokemones (E _ p1 p2) = [p1,p2]
 
 --5. Funciones polimórficas
 --1
