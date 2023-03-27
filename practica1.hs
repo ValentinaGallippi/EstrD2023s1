@@ -168,29 +168,13 @@ superaA :: Pokemon -> Pokemon -> Bool
 superaA p1 p2 = esTipoSuperior (tipoPokemon p1) (tipoPokemon p2)
 
 esTipoSuperior :: TipoDePokemon -> TipoDePokemon -> Bool
-esTipoSuperior Agua x       = esFuego x
-esTipoSuperior Fuego      y = esPlanta y
-esTipoSuperior Planta    z  = esAgua z 
+esTipoSuperior Agua Fuego   = True
+esTipoSuperior Fuego Planta = True
+esTipoSuperior Planta Agua  = True
+esTipoSuperior _      _     = False
 
 
-esFuego :: TipoDePokemon -> Bool
-esFuego Fuego = True
-esFuego _     = False 
 
-esPlanta :: TipoDePokemon -> Bool
-esPlanta Planta = True
-esPlanta _     = False 
-
-esAgua :: TipoDePokemon -> Bool
-esAgua Agua = True
-esAgua _     = False 
-
-pokemon1 = (Po Agua 4)
-pokemon2 = (Po Fuego 6)
-pokemon3 = (Po Planta 66)
-pokemon4 = (Po Planta 777)
-
-entrenador1 = (E "Claudio" pokemon1 pokemon2)
 
 tipoPokemon :: Pokemon -> TipoDePokemon
 tipoPokemon (Po tipo _ ) = tipo 
