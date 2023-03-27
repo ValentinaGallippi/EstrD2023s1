@@ -148,7 +148,9 @@ laQueEsMayor :: Persona -> Persona -> Persona
 laQueEsMayor x y = if  esMayorQueLaOtra x y 
                                 then  x
                                 else  y
-                                
+
+
+
 
 
 --2
@@ -211,6 +213,8 @@ juntarPokemon (e1, e2) = (pokemones e1) ++ (pokemones e2)
 
 pokemones :: Entrenador -> [Pokemon]
 pokemones (E _ p1 p2) = [p1,p2]
+--
+
 
 --5. Funciones polimórficas
 --1
