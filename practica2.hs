@@ -244,7 +244,6 @@ cuantosDeTipo_De_LeGananATodosLosDe_  t e1 e2 =  longitud (losQueSonSuperiores (
 
 losQueSonSuperiores :: [Pokemon] -> [Pokemon] -> [Pokemon]
 losQueSonSuperiores [] _ = []
-losQueSonSuperiores _ [] = []
 losQueSonSuperiores (x:xs) ps = if esSuperiorATodos x ps then x : losQueSonSuperiores xs ps
                                                     else losQueSonSuperiores xs ps
 
