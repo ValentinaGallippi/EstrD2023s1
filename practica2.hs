@@ -87,7 +87,7 @@ agregarAlFinal (x:xs) y = x : (agregarAlFinal xs y)
 
 --12
 agregar :: [a] -> [a] -> [a]
-agregar []     a      = a
+agregar []    x   = x
 agregar (x:xs) ys =   x :  (agregar xs ys)
 
 --13
@@ -100,9 +100,10 @@ reversa (x:xs) = agregarAlFinal (reversa  xs) x
 --máximo entre el elemento n de la primera lista y de la segunda lista, teniendo en cuenta que
 --las listas no necesariamente tienen la misma longitud
 zipMaximos :: [Int] -> [Int] -> [Int]
-zipMaximos _       []     = []
-zipMaximos []      _      = []
+zipMaximos xs     []      = xs
+zipMaximos []     ys      = ys
 zipMaximos (x:xs) (y:ys)  = maximoEntre x y : zipMaximos xs ys 
+
 
 
 maximoEntre :: Int -> Int -> Int
