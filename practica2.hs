@@ -280,7 +280,7 @@ data Empresa = ConsEmpresa [Rol] deriving Show
 
 -- Dada una empresa denota la lista de proyectos en los que trabaja, sin elementos repetidos
 proyectos :: Empresa -> [Proyecto]
-proyectos (ConsEmpresa roles) = proyectosDe roles
+proyectos (ConsEmpresa roles) = sinRepteticiones (proyectosDe roles)
 
 proyectosDe :: [Rol] -> [Proyecto] 
 proyectosDe [] = []
@@ -290,8 +290,13 @@ proyecto :: Rol -> Proyecto
 proyecto (Management s  p ) = p 
 proyecto (Developer  s1 p1 )= p1 
 
+sinRepteticiones :: [Proyecto] -> [Proyecto]
+sinRepteticiones [] = []
+sinRepteticiones (p:ps) = singularSi p (noEstaEnLaLista p ps ) ++ sinRepteticiones ps
 
-
+noEstaEnLaLista :: Proyecto -> [Proyecto] -> Bool
+noEstaEnLaLista proyecto (p:ps) = not (esElMismoProyecto p proyecto)  && noEstaEnLaLista proyecto ps 
+ 
 empresa = ConsEmpresa [(Developer Junior (ConsProyecto "google")), (Management Junior (ConsProyecto "google")), (Developer SemiSenior (ConsProyecto "Pinterest"))]
 
 -- Dada una empresa indica la cantidad de desarrolladores senior que posee, que pertecen
