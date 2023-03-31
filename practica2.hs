@@ -70,6 +70,7 @@ singularSi x condicion = if condicion then [x]
 singularSi' :: a -> Bool -> [a]
 singularSi' x True  = [x]
 singularSi' _ False = []
+
 --10
 --Dados un número n y una lista de listas, devuelve la lista de aquellas listas que tienen más
 --de n elementos
@@ -87,7 +88,6 @@ agregarAlFinal (x:xs) y = x : (agregarAlFinal xs y)
 --12
 agregar :: [a] -> [a] -> [a]
 agregar []     a      = a
-agregar a      []     = a
 agregar (x:xs) ys =   x :  (agregar xs ys)
 
 --13
