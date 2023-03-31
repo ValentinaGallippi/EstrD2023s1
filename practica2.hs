@@ -225,14 +225,14 @@ cantPokemonDe t e = longitud (pokemonesDeTipo t (pokemonesDe e))
 
 pokemonesDeTipo :: TipoDePokemon -> [Pokemon] -> [Pokemon]
 pokemonesDeTipo _ [] = []
-pokemonesDeTipo t (x:xs) = if esDeTipo t (tipoPokemon x) then x : pokemonesDeTipo t xs 
+pokemonesDeTipo t (x:xs) = if sonMismoTipo t (tipoPokemon x) then x : pokemonesDeTipo t xs 
                            else pokemonesDeTipo t xs 
 
-esDeTipo :: TipoDePokemon -> TipoDePokemon -> Bool
-esDeTipo Agua Agua     = True
-esDeTipo Planta Planta = True
-esDeTipo Fuego Fuego   = True
-esDeTipo _           _ = False
+sonMismoTipo :: TipoDePokemon -> TipoDePokemon -> Bool
+sonMismoTipo Agua Agua     = True
+sonMismoTipo Planta Planta = True
+sonMismoTipo Fuego Fuego   = True
+sonMismoTipo _           _ = False
 
 tipoPokemon :: Pokemon -> TipoDePokemon
 tipoPokemon (ConsPokemon tipo _ ) = tipo 
@@ -267,7 +267,7 @@ esMaestroPokemon e = hayUnoDeTipo Agua   (pokemonesDe e) &&
 
 hayUnoDeTipo :: TipoDePokemon -> [Pokemon] -> Bool
 hayUnoDeTipo _    []     = False
-hayUnoDeTipo tipo (p:ps) = esDeTipo tipo (tipoPokemon p) || hayUnoDeTipo tipo ps 
+hayUnoDeTipo tipo (p:ps) = sonMismoTipo tipo (tipoPokemon p) || hayUnoDeTipo tipo ps 
 
 --3
 -- El tipo de dato Rol representa los roles (desarollo o management) de empleados IT dentro
