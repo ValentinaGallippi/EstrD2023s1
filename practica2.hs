@@ -152,7 +152,7 @@ cuentaRegresiva n = n : cuentaRegresiva (n-1)
 --Dado un número n y un elemento e devuelve una lista en la que el elemento e repite n veces.
 repetir :: Int -> a -> [a]
 repetir 0 _ = []
-repetir n x = x : (repetir (n-1) x)
+repetir n x = x : repetir (n-1) x
 
 --4
 -- Dados un número n y una lista xs, devuelve una lista con los n primeros elementos de xs.
