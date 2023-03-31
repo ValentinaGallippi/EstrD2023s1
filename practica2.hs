@@ -191,7 +191,7 @@ promedioEdad xs =  div (sumatoria (edades xs))  (longitud xs)
 
 edades :: [Persona] -> [Int]
 edades [] = []
-edades (x:xs) = edad x : (edades xs)
+edades (x:xs) = edad x : edades xs
 
 -- Dada una lista de personas devuelve la persona más vieja de la lista. Precondición: la
 -- lista al menos posee una persona.
