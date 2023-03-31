@@ -344,8 +344,8 @@ combinacion (p:ps) rs =  (p , cantidadDePersonasQueTrabajanEn p rs) : combinacio
 
 cantidadDePersonasQueTrabajanEn :: Proyecto -> [Rol] -> Int
 cantidadDePersonasQueTrabajanEn _ [] = 0 
-cantidadDePersonasQueTrabajanEn p (r:rs) = unoSiCeroSiNo (esteRotieneEsteProyecto r p )   + cantidadDePersonasQueTrabajanEn p rs 
+cantidadDePersonasQueTrabajanEn p (r:rs) = unoSiCeroSiNo (esteRolTieneEsteProyecto r p )   + cantidadDePersonasQueTrabajanEn p rs 
 
-esteRotieneEsteProyecto :: Rol -> Proyecto -> Bool
-esteRotieneEsteProyecto r p = esElMismoProyecto (proyecto r) p 
+esteRolTieneEsteProyecto :: Rol -> Proyecto -> Bool
+esteRolTieneEsteProyecto r p = esElMismoProyecto (proyecto r) p 
 
