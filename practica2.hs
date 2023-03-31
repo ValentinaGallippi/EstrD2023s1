@@ -315,7 +315,7 @@ pertencenALosProyectos ps (r:rs) = unoSiCeroSiNo (pertenceALosProyectos ps r) + 
 
 pertenceALosProyectos :: [Proyecto] -> Rol -> Bool
 pertenceALosProyectos [] _ = False
-pertenceALosProyectos (p:ps) rol = esElMismoProyecto (proyecto rol)  p  && pertenceALosProyectos ps rol 
+pertenceALosProyectos (p:ps) rol = esElMismoProyecto (proyecto rol)  p  ||  pertenceALosProyectos ps rol 
 
 esElMismoProyecto :: Proyecto -> Proyecto -> Bool
 esElMismoProyecto p1 p2 = nombreProyecto p1 == nombreProyecto p2 
@@ -328,13 +328,7 @@ cantQueTrabajanEn :: [Proyecto] -> Empresa -> Int
 cantQueTrabajanEn ps (ConsEmpresa roles) = pertencenALosProyectos'  ps roles 
 
 
-pertencenALosProyectos' :: [Proyecto] -> [Rol] -> Int
-pertencenALosProyectos' _  [] = 0
-pertencenALosProyectos' ps (r:rs) = unoSiCeroSiNo (pertenceALosProyectos' ps r) + pertencenALosProyectos' ps rs   
 
-pertenceALosProyectos':: [Proyecto] -> Rol -> Bool
-pertenceALosProyectos' [] _ = False
-pertenceALosProyectos' (p:ps) rol = esElMismoProyecto (proyecto rol)  p  || pertenceALosProyectos' ps rol
 
 
 -- Devuelve una lista de pares que representa a los proyectos (sin repetir) junto con su
