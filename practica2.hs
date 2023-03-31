@@ -81,7 +81,7 @@ lasDeLongitudMayorA n (x:xs) = singularSi x (longitud x > n  ) ++ lasDeLongitudM
 --11 
 --Dados una lista y un elemento, devuelve una lista con ese elemento agregado al nal de la lista.
 agregarAlFinal :: [a] -> a -> [a]
-agregarAlFinal []     a = [a]
+agregarAlFinal []     x = [x]
 agregarAlFinal (x:xs) y = x : (agregarAlFinal xs y)
 
 
@@ -325,8 +325,6 @@ nombreProyecto (ConsProyecto nombre) = nombre
 --Indica la cantidad de empleados que trabajan en alguno de los proyectos dados.
 cantQueTrabajanEn :: [Proyecto] -> Empresa -> Int
 cantQueTrabajanEn ps (ConsEmpresa roles) = pertencenALosProyectos'  ps roles 
-
-
 
 
 
