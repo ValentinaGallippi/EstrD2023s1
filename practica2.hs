@@ -324,7 +324,7 @@ nombreProyecto (ConsProyecto nombre) = nombre
 
 --Indica la cantidad de empleados que trabajan en alguno de los proyectos dados.
 cantQueTrabajanEn :: [Proyecto] -> Empresa -> Int
-cantQueTrabajanEn ps (ConsEmpresa roles) = pertencenALosProyectos'  ps roles 
+cantQueTrabajanEn ps (ConsEmpresa roles) = pertencenALosProyectos  ps roles 
 
 
 
@@ -332,4 +332,3 @@ cantQueTrabajanEn ps (ConsEmpresa roles) = pertencenALosProyectos'  ps roles
 -- cantidad de personas involucradas.
 asignadosPorProyecto :: Empresa -> [(Proyecto, Int)]
 asignadosPorProyecto = undefined 
-
