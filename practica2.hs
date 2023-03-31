@@ -178,8 +178,8 @@ data Persona = P String Int  deriving Show
 mayoresA :: Int -> [Persona] -> [Persona]
 mayoresA _ [] = []
 mayoresA n (x:xs) = if edad x > n 
-                    then x : (mayoresA n xs)
-                    else (mayoresA n xs)
+                    then x : mayoresA n xs
+                    else mayoresA n xs
 
 edad :: Persona -> Int
 edad (P n e) = e
