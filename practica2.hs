@@ -329,7 +329,6 @@ cantQueTrabajanEn ps (ConsEmpresa roles) = pertencenALosProyectos'  ps roles
 
 
 pertencenALosProyectos' :: [Proyecto] -> [Rol] -> Int
-pertencenALosProyectos' [] _  = 0
 pertencenALosProyectos' _  [] = 0
 pertencenALosProyectos' ps (r:rs) = unoSiCeroSiNo (pertenceALosProyectos' ps r) + pertencenALosProyectos' ps rs   
 
