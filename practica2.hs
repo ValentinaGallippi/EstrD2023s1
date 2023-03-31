@@ -336,4 +336,16 @@ cantQueTrabajanEn ps (ConsEmpresa roles) = pertencenALosProyectos  ps roles
 -- Devuelve una lista de pares que representa a los proyectos (sin repetir) junto con su
 -- cantidad de personas involucradas.
 asignadosPorProyecto :: Empresa -> [(Proyecto, Int)]
-asignadosPorProyecto = undefined 
+asignadosPorProyecto (ConsEmpresa roles) = combinacion (proyectos empresa)  roles
+
+combinacion :: [Proyecto] -> [Rol] -> [(Proyecto, Int)]
+combinacion []  _     = []
+combinacion (p:ps) rs =  (p , cantidadDePersonasQueTrabajanEn p rs) : combinacion ps rs 
+
+cantidadDePersonasQueTrabajanEn :: Proyecto -> [Rol] -> Int
+cantidadDePersonasQueTrabajanEn _ [] = 0 
+cantidadDePersonasQueTrabajanEn p (r:rs) = unoSiCeroSiNo (esteRotieneEsteProyecto r p )   + cantidadDePersonasQueTrabajanEn p rs 
+
+esteRotieneEsteProyecto :: Rol -> Proyecto -> Bool
+esteRotieneEsteProyecto r p = esElMismoProyecto (proyecto r) p 
+
