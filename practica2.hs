@@ -302,7 +302,7 @@ empresa = ConsEmpresa [(Developer Junior (ConsProyecto "google")), (Management J
 -- Dada una empresa indica la cantidad de desarrolladores senior que posee, que pertecen
 -- además a los proyectos dados por parámetro.
 losDevSenior :: Empresa -> [Proyecto] -> Int
-losDevSenior (ConsEmpresa roles) proyectos = pertencenALosProyectos proyectos (devSeniorsDe roles)
+losDevSenior (ConsEmpresa roles) proyectos = cantidadQuePertenecenALosProyectos proyectos (devSeniorsDe roles)
 
 devSeniorsDe :: [Rol] -> [Rol] 
 devSeniorsDe [] = []
@@ -313,13 +313,13 @@ esDevSenior :: Rol -> Bool
 esDevSenior (Developer Senior _ ) = True
 esDevSenior _                     = False 
 
-pertencenALosProyectos :: [Proyecto] -> [Rol] -> Int
-pertencenALosProyectos _  [] = 0
-pertencenALosProyectos ps (r:rs) = unoSiCeroSiNo (pertenceALosProyectos ps r) + pertencenALosProyectos ps rs   
+cantidadQuePertenecenALosProyectos :: [Proyecto] -> [Rol] -> Int
+cantidadQuePertenecenALosProyectos _  [] = 0
+cantidadQuePertenecenALosProyectos ps (r:rs) = unoSiCeroSiNo (perteneceAAlgunProyecto ps r) + cantidadQuePertenecenALosProyectos ps rs   
 
-pertenceALosProyectos :: [Proyecto] -> Rol -> Bool
-pertenceALosProyectos [] _ = False
-pertenceALosProyectos (p:ps) rol = esElMismoProyecto (proyecto rol)  p  ||  pertenceALosProyectos ps rol 
+perteneceAAlgunProyecto :: [Proyecto] -> Rol -> Bool
+perteneceAAlgunProyecto [] _ = False
+perteneceAAlgunProyecto (p:ps) rol = esElMismoProyecto (proyecto rol)  p  ||  perteneceAAlgunProyecto ps rol 
 
 esElMismoProyecto :: Proyecto -> Proyecto -> Bool
 esElMismoProyecto p1 p2 = nombreProyecto p1 == nombreProyecto p2 
@@ -329,7 +329,7 @@ nombreProyecto (ConsProyecto nombre) = nombre
 
 --Indica la cantidad de empleados que trabajan en alguno de los proyectos dados.
 cantQueTrabajanEn :: [Proyecto] -> Empresa -> Int
-cantQueTrabajanEn ps (ConsEmpresa roles) = pertencenALosProyectos  ps roles 
+cantQueTrabajanEn ps (ConsEmpresa roles) = cantidadQuePertenecenALosProyectos  ps roles 
 
 
 
