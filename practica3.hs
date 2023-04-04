@@ -70,7 +70,7 @@ pasosHastaTesoro :: Camino -> Int
 pasosHastaTesoro Fin                    = error "no hay cofre" 
 pasosHastaTesoro (Cofre objetos camino) = if hayTesorosEn objetos then 0  
                                           else 1 + pasosHastaTesoro camino
-pasosHastaTesoro (Nada camino)          = pasosHastaTesoro camino 
+pasosHastaTesoro (Nada camino)          = 1 + pasosHastaTesoro camino 
 
 
 -- Indica si hay un tesoro en una cierta cantidad exacta de pasos. Por ejemplo, si el número de
@@ -171,8 +171,26 @@ toList (NodeT x t1 t2) = toList t1 ++ [x] ++ toList t2
 -- distancia de la raiz a uno de sus hijos es 1.
 -- Nota: El primer nivel de un árbol (su raíz) es 0.
 levelN :: Int -> Tree a -> [a]
-levelN = undefined 
+levelN n EmptyT = []
+levelN n (NodeT x t1 t2) = if  n==0 then [x] else levelN (n-1) t1 ++ levelN  (n-1) t2  
+ 
+-- Dado un árbol devuelve una lista de listas en la que cada elemento representa un nivel de
+-- dicho árbol.
+listPerLevel :: Tree a -> [[a]]
+listPerLevel EmptyT = []
+listPerLevel (NodeT x t1 t2) =  [x] :  unirPorOrden (listPerLevel t1) (listPerLevel t2)
 
+unirPorOrden :: [[a]] -> [[a]] -> [[a]]
+unirPorOrden [] ys =  ys
+unirPorOrden xs [] = xs
+unirPorOrden (x:xs) (y:ys) = (x++y) : unirPorOrden xs ys 
+
+-- unirPorOrden (xs:xss) (ys:yss) = [xs++ys] ++ unirPorOrden xs ys 
+
+-- [ [2], [3]] ^[[2] [3]]
+-- [[2,2], [3,3]]
+
+-- [[2], [3], [2], [3]]
 --Devuelve los elementos de la rama más larga del árbol
 ramaMasLarga :: Tree a -> [a]                                 
 ramaMasLarga EmptyT          = []
@@ -181,14 +199,5 @@ ramaMasLarga (NodeT x t1 t2) = if sizeT t1 >  sizeT t2 then x : leaves t1
 
 
 --2.2. Expresiones Aritméticas
-data ExpA = Valor Int
-| Sum ExpA ExpA
-| Prod ExpA ExpA
-| Neg ExpA  deriving Show
+data ExpA = Valor Int | Sum ExpA ExpA | Prod ExpA ExpA | Neg ExpA  deriving Show
 
--- Dada una expresión aritmética devuelve el resultado evaluarla.
-eval :: ExpA -> -> Int
-eval (Valor   n ) = ...
-eval (Sum e1 e2 ) = 
-eval (Prod e1 e2) =
-eval (Neg e1    ) =
