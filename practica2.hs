@@ -340,12 +340,7 @@ asignadosPorProyecto (ConsEmpresa roles) = combinarProyectoYEmpleados (proyectos
 
 combinarProyectoYEmpleados :: [Proyecto] -> [Rol] -> [(Proyecto, Int)]
 combinarProyectoYEmpleados []  _     = []
-combinarProyectoYEmpleados (p:ps) rs =  (p , cantidadDePersonasQueTrabajanEn p rs) : combinarProyectoYEmpleados ps rs 
+combinarProyectoYEmpleados (p:ps) rs =  (p , cantQueTrabajanEn [p] rs) : combinarProyectoYEmpleados ps rs 
 
-cantidadDePersonasQueTrabajanEn :: Proyecto -> [Rol] -> Int
-cantidadDePersonasQueTrabajanEn _ [] = 0 
-cantidadDePersonasQueTrabajanEn p (r:rs) = unoSiCeroSiNo (esteRolTieneEsteProyecto r p )   + cantidadDePersonasQueTrabajanEn p rs 
 
-esteRolTieneEsteProyecto :: Rol -> Proyecto -> Bool
-esteRolTieneEsteProyecto r p = esElMismoProyecto (proyecto r) p 
 
