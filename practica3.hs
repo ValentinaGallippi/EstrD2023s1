@@ -128,6 +128,8 @@ cantidadDeTesorosAca _ = 0
 
 
 
+-- alMenosNTesoros 2 (Cofre [Cacharro,Cacharro] (Nada (Cofre [Tesoro,Tesoro] Fin)))
+
 
 --2.1. Árboles binarios
 data Tree a = EmptyT | NodeT a (Tree a) (Tree a) deriving Show
@@ -224,7 +226,7 @@ ramaMasLarga (NodeT x t1 t2) = if sizeT t1 >  sizeT t2 then x : leaves t1
 -- Dado un árbol devuelve todos los caminos, es decir, los caminos desde la raiz hasta las hojas.
 todosLosCaminos :: Tree a -> [[a]]
 todosLosCaminos  EmptyT = []
-todosLosCaminos (NodeT x t1 t2) = caminosConRaiz x (todosLosCaminos t1) ++ caminosConRaiz x (todosLosCaminos t2)
+todosLosCaminos (NodeT x t1 t2) = caminosConRaiz x (todosLosCaminos t1 ++ todosLosCaminos t2)
 
 caminosConRaiz :: a -> [[a]] -> [[a]]
 caminosConRaiz x [] = []
@@ -258,20 +260,21 @@ eval  (Neg e1)    = - eval e1
 -- c) 1 * x = x * 1 = x
 -- d) - (- x) = x
 simplificar :: ExpA -> ExpA
-simplificar (Valor n)   = 
+simplificar (Valor n)   = n
 simplificar (Sum e1 e2) = simplificarSuma (simplificar e1) (simplificar e2)
 simplificar (Prod e1 e2)= simplificarMul (simplificar e1) (simplificar e2)
 simplificar (Neg e1)    = simplificarNeg (simplificar e1)
 
 simplificarNeg :: ExpA -> ExpA
-simplificarNeg -(-e) = e
+simplificarNeg (Neg e1) = e1
+
 
 
 simplificarMul :: ExpA -> ExpA -> ExpA
 simplificarMul e (Valor 1) = e
 simplificarMul (Valor 1) e = e
-simplificarMul e (Valor 0) = 0
-simplificarMul (Valor 0) e = 0
+simplificarMul e (Valor 0) = (Valor 0)
+simplificarMul (Valor 0) e = (Valor 0)
 simplificarMul e1 e2       = Prod e1 e2 
 
 simplificarSuma :: ExpA -> ExpA -> ExpA 
