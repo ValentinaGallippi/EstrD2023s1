@@ -260,7 +260,7 @@ eval  (Neg e1)    = - eval e1
 -- c) 1 * x = x * 1 = x
 -- d) - (- x) = x
 simplificar :: ExpA -> ExpA
-simplificar (Valor n)   = n
+simplificar (Valor n)   = (Valor n)
 simplificar (Sum e1 e2) = simplificarSuma (simplificar e1) (simplificar e2)
 simplificar (Prod e1 e2)= simplificarMul (simplificar e1) (simplificar e2)
 simplificar (Neg e1)    = simplificarNeg (simplificar e1)
@@ -280,5 +280,5 @@ simplificarMul e1 e2       = Prod e1 e2
 simplificarSuma :: ExpA -> ExpA -> ExpA 
 simplificarSuma e (Valor 0)= e
 simplificarSuma (Valor 0) e=  e
-simplificarSuma e e1 = Sum e1 e2
+simplificarSuma e e1 = Sum e e1
 
