@@ -198,6 +198,10 @@ levelN :: Int -> Tree a -> [a]
 levelN n EmptyT = []
 levelN n (NodeT x t1 t2) = if  n==0 then [x] else levelN (n-1) t1 ++ levelN  (n-1) t2  
 
+levelN' :: Int -> Tree a -> [a]
+levelN' _ EmptyT = []
+levelN' 0 (NodeT x t1 t2) = [x]
+levelN' n (NodeT x t1 t2) = levelN (n-1) t1 ++ levelN  (n-1) t2  
 
 
 -- Dado un árbol devuelve una lista de listas en la que cada elemento representa un nivel de
@@ -226,7 +230,7 @@ ramaMasLarga (NodeT x t1 t2) = if sizeT t1 >  sizeT t2 then x : leaves t1
 -- Dado un árbol devuelve todos los caminos, es decir, los caminos desde la raiz hasta las hojas.
 todosLosCaminos :: Tree a -> [[a]]
 todosLosCaminos  EmptyT = []
-todosLosCaminos (NodeT x t1 t2) = caminosConRaiz x (todosLosCaminos t1 ++ todosLosCaminos t2)
+todosLosCaminos (NodeT x t1 t2) = [x] :  caminosConRaiz x (todosLosCaminos t1 ++ todosLosCaminos t2)
 
 caminosConRaiz :: a -> [[a]] -> [[a]]
 caminosConRaiz x [] = []
