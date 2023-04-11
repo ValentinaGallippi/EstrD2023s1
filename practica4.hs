@@ -147,5 +147,95 @@ conDirActual d [] = [[d]]
 conDirActual d (ds:dss) = (d : ds) : conDirActual d dss
 
 
+-- 3. Nave Espacial
+data Componente = LanzaTorpedos | Motor Int | Almacen [Barril]  deriving Show 
+
+data Barril = Comida | Oxigeno | Torpedo | Combustible  deriving Show 
+
+data Sector = S SectorId [Componente] [Tripulante]  deriving Show 
+
+type SectorId = String  
+
+type Tripulante = String
+
+data Tree a = EmptyT | NodeT a (Tree a) (Tree a)  deriving Show 
+
+data Nave = N (Tree Sector)  deriving Show 
+
+ 
+nave0 = N (NodeT sector1 (NodeT sector2 EmptyT (NodeT sector1 EmptyT EmptyT)) EmptyT)
+
+sector1 = S "31c" [LanzaTorpedos,(Motor 18), (Almacen [Comida,Oxigeno,Combustible])] ["valen"]
+
+sector2 = S "rr43" [(Motor 32),(Almacen [Comida,Combustible]), (Almacen [Comida,Oxigeno,Combustible])] ["gallippi"]
+
+--1 Propósito: Devuelve todos los sectores de la nave.
+sectores :: Nave -> [SectorId]
+sectores (N t) = sectoresS t 
+
+sectoresS :: Tree Sector -> [SectorId]
+sectoresS EmptyT = []
+sectoresS (NodeT s t1 t2) = idSector s : sectoresS t1 ++ sectoresS t2
+
+idSector :: Sector -> SectorId 
+idSector (S sI _ _) = sI 
+
+-- Propósito: Devuelve la suma de poder de propulsión de todos los motores de la nave. Nota:
+-- el poder de propulsión es el número que acompaña al constructor de motores.
+poderDePropulsion :: Nave -> Int
+poderDePropulsion (N t) = poderDePropulsionT t 
+
+poderDePropulsionT :: Tree Sector -> Int 
+poderDePropulsionT EmptyT          = 0
+poderDePropulsionT (NodeT s t1 t2) = propulsion s + poderDePropulsionT t1 + poderDePropulsionT t2 
+
+propulsion :: Sector -> Int
+propulsion (S _ c _) = propulsionesC c 
+
+propulsionesC :: [Componente] -> Int 
+propulsionesC [] = 0
+propulsionesC (c:cs) = valorSiEsMotor c + propulsionesC cs
+
+valorSiEsMotor :: Componente -> Int
+valorSiEsMotor (Motor n) = n
+valorSiEsMotor  _        = 0 
+
+
+-- Propósito: Devuelve todos los barriles de la nave.
+barriles :: Nave -> [Barril]
+barriles (N t) = barrilesT t 
+
+barrilesT :: Tree Sector -> [Barril] 
+barrilesT EmptyT = []
+barrilesT (NodeT s t1 t2) = barrilesS s ++ barrilesT t1 ++ barrilesT t2
+
+barrilesS :: Sector -> [Barril] 
+barrilesS (S _ c _ ) = barrilesC c 
+
+barrilesC :: [Componente] -> [Barril]
+barrilesC [] = []
+barrilesC (c:cs) = barrilSiAlmacen c ++ barrilesC cs 
+
+barrilSiAlmacen :: Componente -> [Barril]
+barrilSiAlmacen (Almacen b) = b 
+barrilSiAlmacen _           = []
+
+-- Propósito: Añade una lista de componentes a un sector de la nave.
+-- Nota: ese sector puede no existir, en cuyo caso no añade componentes.
+agregarASector :: [Componente] -> SectorId -> Nave -> Nave
+agregarASector cs sI (N t) = N (agregarAS cs sI t)
+
+agregarAS :: [Componente] -> SectorId -> Tree Sector -> Tree Sector
+agregarAS cs sI EmptyT = EmptyT 
+agregarAS cs sI (NodeT s t1 t2) = if sI == idSector s then agregarComponentes cs s t1 t2
+                                 else NodeT s (agregarAS cs sI t1) (agregarAS cs sI t2)
+
+agregarComponentes :: [Componente] -> Sector -> Tree Sector -> Tree Sector -> Tree Sector 
+agregarComponentes cs s t1 t2 = NodeT (sectorConComponentes s cs ) t1 t2 
+
+sectorConComponentes :: Sector -> [Componente] -> Sector 
+sectorConComponentes (S sI cs t) comp  = (S sI (cs++comp) t)
+
+
 
 
