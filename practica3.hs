@@ -22,7 +22,6 @@ unoSiCeroSiNo False = 0
 
 -- Dado un color y una celda, agrega una bolita de dicho color a la celda.
 poner :: Color -> Celda -> Celda
-poner color CeldaVacia = Bolita color CeldaVacia
 poner color celda = Bolita color celda
  
 -- Dado un color y una celda, quita una bolita de dicho color de la celda. Nota: a diferencia de
