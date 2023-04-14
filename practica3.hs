@@ -30,7 +30,7 @@ poner color celda = Bolita color celda
 sacar :: Color -> Celda -> Celda
 sacar _ CeldaVacia = CeldaVacia
 sacar c (Bolita color celda) =  if esDeColor color c then celda 
-                                                     else (Bolita color (sacar c  celda ))
+                                                     else Bolita color (sacar c  celda )
 
 
 -- Dado un número n, un color c, y una celda, agrega n bolitas de color c a la celda.
