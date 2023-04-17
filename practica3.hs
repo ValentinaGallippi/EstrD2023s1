@@ -150,7 +150,7 @@ sizeT (NodeT n t1 t2) = 1 + sizeT t1 + sizeT t2
 -- Dado un árbol de enteros devuelve un árbol con el doble de cada número.
 mapDobleT :: Tree Int -> Tree Int
 mapDobleT EmptyT          = EmptyT
-mapDobleT (NodeT n t1 t2) = (NodeT (n*2) (mapDobleT t1) (mapDobleT t2)) 
+mapDobleT (NodeT n t1 t2) = NodeT (n*2) (mapDobleT t1) (mapDobleT t2)
 
 -- Dados un elemento y un árbol binario devuelve True si existe un elemento igual a ese en el
 -- árbol.
