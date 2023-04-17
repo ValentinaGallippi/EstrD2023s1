@@ -219,7 +219,7 @@ listPerLevel (NodeT x t1 t2) =  [x] :  unirPorOrden (listPerLevel t1) (listPerLe
 unirPorOrden :: [[a]] -> [[a]] -> [[a]]
 unirPorOrden [] ys =  ys
 unirPorOrden xs [] = xs
-unirPorOrden (x:xs) (y:ys) = (x++y) : unirPorOrden xs ys 
+unirPorOrden (xs:xss) (ys:yss) = (xs++ys) : unirPorOrden xss yss
 
 -- unirPorOrden (xs:xss) (ys:yss) = [xs++ys] ++ unirPorOrden xs ys 
 
