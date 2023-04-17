@@ -94,12 +94,14 @@ avanzar Fin                = error "No se puede avanzar"
 
 --Indica si hay al menos “n” tesoros en el camino. 
 alMenosNTesoros :: Int -> Camino -> Bool
-alMenosNTesoros n camino = cantidadDeTesorosEnCamino camino == n 
+alMenosNTesoros n Fin                = False 
+alMenosNTesoros n (Cofre obj camino) = if cantidadDeTesorosEn obj >= n then True else alMenosNTesoros (n-(cantidadDeTesorosEn obj)) camino  
+alMenosNTesoros n (Nada camino)      =  alMenosNTesoros n camino 
 
-cantidadDeTesorosEnCamino :: Camino -> Int 
-cantidadDeTesorosEnCamino Fin                = 0 
-cantidadDeTesorosEnCamino (Cofre obj camino) = cantidadDeTesorosEn obj + cantidadDeTesorosEnCamino camino 
-cantidadDeTesorosEnCamino (Nada camino)      = cantidadDeTesorosEnCamino camino 
+-- cantidadDeTesorosEnCamino :: Camino -> Int 
+-- cantidadDeTesorosEnCamino Fin                = 0 
+-- cantidadDeTesorosEnCamino (Cofre obj camino) = cantidadDeTesorosEn obj + cantidadDeTesorosEnCamino camino 
+-- cantidadDeTesorosEnCamino (Nada camino)      = cantidadDeTesorosEnCamino camino 
 
 cantidadDeTesorosEn :: [Objeto] -> Int
 cantidadDeTesorosEn [] = 0 
