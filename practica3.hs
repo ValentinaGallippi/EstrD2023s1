@@ -230,8 +230,9 @@ unirPorOrden (xs:xss) (ys:yss) = (xs++ys) : unirPorOrden xss yss
 --Devuelve los elementos de la rama más larga del árbol
 ramaMasLarga :: Tree a -> [a]                                 
 ramaMasLarga EmptyT          = []
-ramaMasLarga (NodeT x t1 t2) = if sizeT t1 >  sizeT t2 then x : leaves t1
-                                                          else x : leaves t2
+ramaMasLarga (NodeT x t1 t2) = if heightT t1 >= heightT t2 then x : ramaMasLarga t1 
+                                                           else x : ramaMasLarga t2 
+                              
 
 -- Dado un árbol devuelve todos los caminos, es decir, los caminos desde la raiz hasta las hojas.
 todosLosCaminos :: Tree a -> [[a]]
