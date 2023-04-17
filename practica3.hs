@@ -187,7 +187,7 @@ heightT (NodeT x t1 t2) = 1 + max (sizeT t1) (sizeT t2)
 -- en cada nodo del árbol.
 mirrorT :: Tree a -> Tree a
 mirrorT EmptyT = EmptyT
-mirrorT (NodeT x t1 t2) = (NodeT x (mirrorT t2) (mirrorT t1)) 
+mirrorT (NodeT x t1 t2) = NodeT x (mirrorT t2) (mirrorT t1) 
 
 -- Dado un árbol devuelve una lista que representa el resultado de recorrerlo en modo in-order.
 -- Nota: En el modo in-order primero se procesan los elementos del hijo izquierdo, luego la raiz
