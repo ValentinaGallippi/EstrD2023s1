@@ -168,8 +168,8 @@ aparicionesT x (NodeT y t1 t2) = unoSiCeroSiNo (x==y)  + aparicionesT x t1 + apa
 -- Dado un árbol devuelve los elementos que se encuentran en sus hojas.
 leaves :: Tree a -> [a]
 leaves EmptyT          = []
-leaves (NodeT x t1 t2) = if esEmptyT t1 && esEmptyT t2 then x  : (leaves t1 ++ leaves t2) 
-                                                       else (leaves t1 ++ leaves t2) 
+leaves (NodeT x t1 t2) = if esEmptyT t1 && esEmptyT t2 then x  : leaves t1 ++ leaves t2 
+                                                       else leaves t1 ++ leaves t2 
 
 esEmptyT :: Tree a -> Bool
 esEmptyT EmptyT = True
