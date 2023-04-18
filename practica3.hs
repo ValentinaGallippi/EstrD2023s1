@@ -94,8 +94,9 @@ avanzar Fin                = error "No se puede avanzar"
 
 --Indica si hay al menos “n” tesoros en el camino. 
 alMenosNTesoros :: Int -> Camino -> Bool
+alMenosNTesoros 0 _                  = True 
 alMenosNTesoros n Fin                = False 
-alMenosNTesoros n (Cofre obj camino) = if cantidadDeTesorosEn obj >= n then True else alMenosNTesoros (n-(cantidadDeTesorosEn obj)) camino  
+alMenosNTesoros n (Cofre obj camino) = cantidadDeTesorosEn obj >= n || alMenosNTesoros (n-(cantidadDeTesorosEn obj)) camino  
 alMenosNTesoros n (Nada camino)      =  alMenosNTesoros n camino 
 
 -- cantidadDeTesorosEnCamino :: Camino -> Int 
