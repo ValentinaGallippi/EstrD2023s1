@@ -278,7 +278,7 @@ simplificar (Neg e1)    = simplificarNeg (simplificar e1)
 
 simplificarNeg :: ExpA -> ExpA
 simplificarNeg (Neg e1) = e1
-simplificarNeg e        = e 
+simplificarNeg e        = Neg e 
 
 
 
