@@ -17,9 +17,14 @@ findMinPQ :: Ord a => PriorityQueue a -> a --O(n)
 findMinPQ (PQ xs) = minimum xs
 
 deleteMinPQ :: Ord a => PriorityQueue a -> PriorityQueue a -- O(n)
-deleteMinPQ (PQ xs) = PQ (sacar (minimun xs) xs) 
+deleteMinPQ (PQ xs) = PQ (borrarMin xs) 
 
-sinElMinimo :: Ord a  => [a] -> [a]  -- O(n)
-sinElMinimo []     = []
-sinElMinimo (x:xs) = if minimum xs == x then xs
-                                        else x : sinElMinimo xs
+-- O(n)
+borrarMin :: Ord a => [a] -> [a]
+  -- PRECOND: la lista no es vacía
+borrarMin xs = borrar (minimum xs) xs
+
+-- O(n)
+borrar :: Eq a => a -> [a] -> [a]
+borrar x []     = []
+borrar x (y:ys) = if x==y then ys else y : borrar x ys
