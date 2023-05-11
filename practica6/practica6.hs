@@ -4,7 +4,8 @@ import PriorityQueueV1
 import MapV1
 --(Map, emptyM, assocM, lookupM, deleteM, keys)
 
-
+import MultiSet
+-- (MultiSet , emptyMS, addMS, ocurrencesMS, unionMS, intersectionMS, multiSetToList)
 
 -- dada una lista la ordena de
 -- menor a mayor utilizando una Priority Queue como estructura auxiliar.
@@ -29,7 +30,7 @@ valores [] map      = []
 valores (k:ks) map  = lookupM k map : valores ks  map
 
 -- Propósito: indica si en el map se encuentran todas las claves dadas
-todasAsociadas :: Ord k => [k] -> Map k v -> Bool
+todasAsociadas :: Ord k => [k] -> Map k v -> Bool -- O (k^2)
 todasAsociadas claves map = estanTodasLasClaves claves (keys map) 
 
 estanTodasLasClaves :: Ord k => [k] -> [k] -> Bool
@@ -43,44 +44,57 @@ estaEn k (y:ys) = k==y || estaEn k ys
 
 
 -- Propósito: convierte una lista de pares clave valor en un map.
-listToMap ::Ord k  => [(k, v)] -> Map k v
+listToMap ::Ord k  => [(k, v)] -> Map k v  -- O(n log k )
 listToMap []             = emptyM
 listToMap ((k,v) : kvs ) = assocM k v (listToMap kvs)
 
 -- Propósito: convierte un map en una lista de pares clave valor.
-mapToList :: Ord k => Map k v -> [(k, v)]
+mapToList :: Ord k => Map k v -> [(k, v)] -- O(k log k)
 mapToList map = asociarClavesCon (keys map) map 
 
 asociarClavesCon :: Ord k => [k] -> Map k v -> [(k,v)]  
 asociarClavesCon []     map  = []
 asociarClavesCon (k:ks) map  = (k,fromJust (lookupM k map)) : asociarClavesCon ks map
 
-
+-- EL COSTO DE FROM JUST LO TENGO QUE TENER EN CUENTA? 
 
 fromJust :: Maybe v -> v
 --PRECONDICION: NO PUEDE SER NOTHING. 
 fromJust (Just v) = v
 
--- ?????????????????????????????????????????
--- -- Propósito: dada una lista de pares clave valor, agrupa los valores de los pares que compartan
--- -- la misma clave.
--- agruparEq :: Eq k => [(k, v)] -> Map k [v] -- se usa case Cuando el resultado de una subtarea es un tipo algebraico, y no amerita otra subtarea (palabras de fidel)
--- agruparEq []           = emptyM
--- agruparEq ((k,v) : kvs) =  
---     case lookupM k kvs of 
---           Nothing -> assocM k (v:[]) (agruparEq kvs) 
---           Just vs  -> assocM k (v:vs) (agruparEq kvs ) 
+
+-- Propósito: dada una lista de pares clave valor, agrupa los valores de los pares que compartan
+-- la misma clave.
+agruparEq :: Eq k => [(k, v)] -> Map k [v] -- se usa case Cuando el resultado de una subtarea es un tipo algebraico, y no amerita otra subtarea 
+agruparEq []            = emptyM
+agruparEq ((k,v) : kvs) =  
+        case lookupM k (agruparEq kvs) of 
+          Nothing -> assocM k (v:[]) (agruparEq kvs) 
+          Just vs  -> assocM k (v:vs) (agruparEq kvs ) 
+
+{-
+costo =
+funciones utilizadas : 
+emptyM O(1)  + 
+lookUpM O(K) +
+assocM O(K)  +
+* K
+             
+
+-}
 
 
 -- Propósito: dada una lista de claves de tipo k y un map que va de k a Int, le suma uno a
 -- cada número asociado con dichas claves.
 incrementar :: Ord k => [k] -> Map k Int -> Map k Int
-incrementar [] map     = map
+incrementar []     map = map
 incrementar (k:ks) map = 
     case lookupM k map of 
         Nothing -> incrementar ks map
         Just v  -> assocM k (v+1) (incrementar ks map) 
-   
+
+
+-- O(k log k) ???? (assoc es log k, ese se hace sobre todos los elementos de la lista tambien????)
 
 -- Propósito: dado dos maps se agregan las claves y valores del primer map en el segundo. Si
 -- una clave del primero existe en el segundo, es reemplazada por la del primero.
@@ -90,10 +104,12 @@ mergeMaps map1 map2 = agregarClavesDeA (keys map1) map1 map2
 agregarClavesDeA :: Ord k =>[k] -> Map k v -> Map k v -> Map k v
 agregarClavesDeA []     _  m2 = m2
 agregarClavesDeA (k:ks) m1 m2 = assocM k (fromJust(lookupM k m1)) (agregarClavesDeA ks m1 m2)
+-- aca de nuevo el costo de from just. 
+--  k log k -> por cada elemento de [k] utilizo una funcion logaritimica (assocM) y lookupM (esta tambien es logaritmica, la sumo????) 
 
 -- Propósito: dada una lista de elementos construye un map que relaciona cada elemento con
 -- su posición en la lista.
-indexar :: [a] -> Map Int a
+indexar :: [a] -> Map Int a -- O(n log k)
 indexar xs = indexarDesde 0 xs
 
 indexarDesde :: Int -> [a] -> Map Int a
@@ -116,11 +132,16 @@ map1 = assocM 'v' 7
 
 -- Propósito: dado un string, devuelve un map donde las claves son los caracteres que aparecen
 -- en el string, y los valores la cantidad de veces que aparecen en el mismo.
-ocurrencias :: String -> Map Char Int
-ocurrencias [] = emptyM
+ocurrencias :: String -> Map Char Int -- ????????????????????????ayudaaaaaa
+ocurrencias []     = emptyM
 ocurrencias (c:cs) = assocM c (vecesQueApareceEn c cs) (ocurrencias cs)
 
-vecesQueApareceEn ::Eq c => c -> [c] -> Int
+vecesQueApareceEn ::Eq c => c -> [c] -> Int -- O(n)
 vecesQueApareceEn c [] = 1
 vecesQueApareceEn c (c':cs) = if c == c' then (vecesQueApareceEn c cs) + 1 
-                                         else vecesQueApareceEn c cs
+                                         else vecesQueApareceEn c cs  
+                                         
+
+ocurrencias' :: String -> MultiSet Char
+ocurrencias' []     = emptyMS
+ocurrencias' (c:cs) = addMS c (vecesQueApareceEn c cs) (ocurrencias' cs)
