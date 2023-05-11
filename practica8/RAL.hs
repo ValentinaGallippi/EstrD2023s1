@@ -2,7 +2,12 @@ module RAL
     (RAList , emptyRAL, isEmptyRAL, lengthRAL, get, minRAL, add, elems, remove, set, addAt)
 where 
 
+import Heap
+import MapV1
+
+
 data RAList a = MkR Int (Map Int a) (Heap a)
+    deriving Show 
 
 {-
 INV.REP: 
@@ -26,14 +31,14 @@ isEmptyRAL (MkR i mi h) = i == 0
 lengthRAL :: RAList a -> Int
 -- Propósito: devuelve la cantidad de elementos.
 -- Eficiencia: O(1).
-lengthRAL (MkR i mi h) = n 
+lengthRAL (MkR i mi h) = (i-1)
 
 get :: Int -> RAList a -> a
 -- Propósito: devuelve el elemento en el índice dado.
 -- Precondición: el índice debe existir.
 -- Eficiencia: O(log N).
-get i (MrK i' mi h) = 
-    case lookUpM i mi of 
+get i (MkR i' mi h) = 
+    case lookupM i mi of 
         Nothing -> error "el indice no existe"
         Just v  -> v 
 
@@ -51,21 +56,32 @@ add x (MkR i mi h) = MkR (i+1) (assocM i x mi) (insertH x h)
 -- Propósito: transforma una RAList en una lista, respetando el orden de los elementos.
 -- Eficiencia: O(N log N).
 elems :: Ord a => RAList a -> [a]
-elems (MrK i mi h) = reversa (elementosDe i mi)
+elems (MkR i mi h) = reversa (elementosDe i mi)
+
+reversa :: [a] -> [a]
+reversa [] = []
+reversa (x:xs) = agregarAlFinal (reversa  xs) x 
+
+agregarAlFinal :: [a] -> a -> [a]
+agregarAlFinal []     x = [x]
+agregarAlFinal (x:xs) y = x : (agregarAlFinal xs y)
 
 -- preguntar: 
 --   0 no tendria un elemento? porque cuando ingreso un elemento a un RAL vacio se asocia 0 con el elemento, entonces como hago??
 elementosDe :: Int -> Map Int a -> [a] 
 elementosDe 0 mi = []
-elementosDe i mi = fromJust (lookUp i mi) : elementosDe (i-1) mi 
+elementosDe i mi = fromJust (lookupM i mi) : elementosDe (i-1) mi 
    
+fromJust :: Maybe v -> v 
+fromJust (Just v) = v 
+
 
 -- Propósito: elimina el último elemento de la lista.
 -- Precondición: la lista no está vacía.
 -- Eficiencia: O(N log N).
 remove :: Ord a => RAList a -> RAList a
 remove (MkR i mi h) = 
-    let elemABorrar = fromJust (lookUp (i-1) mi) 
+    let elemABorrar = fromJust (lookupM (i-1) mi) 
         newH        = borrar elemABorrar h 
         newM        = deleteM (i-1) mi 
     in (MkR (i-1) newM newH)
@@ -73,14 +89,14 @@ remove (MkR i mi h) =
 borrar :: Ord a => a -> Heap a -> Heap a 
 borrar x h = 
     if findMin h == x then deleteMin h
-                      else insertH (findMin h) (borrar x (deleteMin))  
+                      else insertH (findMin h) (borrar x (deleteMin h))  
 
 
 -- Propósito: reemplaza el elemento en la posición dada.
 -- Precondición: el índice debe existir.
 -- Eficiencia: O(N log N).
 set :: Ord a => Int -> a -> RAList a -> RAList a
-set i x (MrK i' mi h) = let newM = assocM i x mi 
+set i x (MkR i' mi h) = let newM = assocM i x mi 
                             newH = reemplazarPorXEn x (elemento i mi) h
                         in (MkR i' newM newH)
 
@@ -90,7 +106,7 @@ reemplazarPorXEn x y h = insertH x (borrar x h)
 elemento:: Int -> Map Int a ->  a 
 -- Precondición: el índice debe existir.
 elemento i mi = 
-    case lookUpM i mi of 
+    case lookupM i mi of 
         Nothing -> error " no existe dicho indice"
         Just v  -> v 
 
@@ -101,9 +117,16 @@ elemento i mi =
 -- Eficiencia: O(N log N).
 -- Sugerencia: definir una subtarea que corra los elementos del Map en una posición a partir de una posición dada. Pasar
 -- también como argumento la máxima posición posible.
--- addAt :: Ord a => Int -> a -> RAList a -> RAList a
--- addAt i x (Mrk i' mi h) = 
---         let elementosACambiar = elemntosDe i mi 
---             newM = asociarAPartir i x elementosACambiar mi 
+addAt :: Ord a => Int -> a -> RAList a -> RAList a
+addAt i x (MkR i' mi h) = 
+        let elementoAReemplazar = fromJust (lookupM i mi )
+            newH = insertH x (borrar elementoAReemplazar h)
+            newM = correrDesdeElementos i i' mi
+        in MkR (i'+1) (assocM i x newM)  newH
 
---     MkR (i'+1) 
+correrDesdeElementos :: Int -> Int -> Map Int a -> Map Int a
+correrDesdeElementos i i' mi = 
+    if i == i' then mi
+               else assocM (i+1) (fromJust (lookupM i mi) ) (deleteM i (correrDesdeElementos (i+1) i' mi))
+
+    

@@ -1,3 +1,7 @@
+
+import MapV1 
+import RAL 
+
 -- O(n)
 esBST :: Ord a => Tree a -> Bool
 esBST EmptyT           = True
@@ -43,3 +47,25 @@ elMinimoMayorA x (NodeT y ti td) =
               else  case elMinimoMayorA x ti of 
                            Nothing -> Just y
                            Just v -> Just v 
+
+
+ral :: RAList Char 
+ral = 
+      add 'n'
+    $ add 'e'
+    $ add 'l'
+    $ add 'v'
+    $ emptyRAL
+
+map1 :: Map Int Char 
+map1 = 
+      assocM 3 'n'
+    $ assocM 2 'e'
+    $ assocM 1 'l'
+    $ assocM 0 'v'
+    $ emptyM 
+
+
+fromJust :: Maybe v -> v
+fromJust (Just v) = v 
+
