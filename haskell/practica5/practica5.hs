@@ -79,3 +79,5 @@ insertarEnPos n e s = if isEmptyS s
                        then push e s
 
                        else push (top s) (insertarEnPos (n-1) e (pop s))
+
+
