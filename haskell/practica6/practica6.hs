@@ -53,10 +53,19 @@ mapToList :: Ord k => Map k v -> [(k, v)] -- O(k log k)
 mapToList map = asociarClavesCon (keys map) map 
 
 asociarClavesCon :: Ord k => [k] -> Map k v -> [(k,v)]  
+-- PRECONDICION: las claves dadas pertenecen al map (es garantizado porque son lsa claves que saque yo del map dado.SinoDeberia hacer un case.)
 asociarClavesCon []     map  = []
 asociarClavesCon (k:ks) map  = (k,fromJust (lookupM k map)) : asociarClavesCon ks map
 
--- EL COSTO DE FROM JUST LO TENGO QUE TENER EN CUENTA? 
+
+-- version sin precondicion: 
+asociarClavesCon :: Ord k => [k] -> Map k v -> [(k,v)]  
+asociarClavesCon []     map  = []
+asociarClavesCon (k:ks) map  = 
+    case lookUpM k map of
+        Nothing -> error "la clave dada no existe en el map"
+        Just v  -> (k,v) : asociarClavesCon ks map
+
 
 fromJust :: Maybe v -> v
 --PRECONDICION: NO PUEDE SER NOTHING. 
@@ -94,7 +103,7 @@ incrementar (k:ks) map =
         Just v  -> assocM k (v+1) (incrementar ks map) 
 
 
--- O(k log k) ???? (assoc es log k, ese se hace sobre todos los elementos de la lista tambien????)
+-- O(k log k) 
 
 -- Propósito: dado dos maps se agregan las claves y valores del primer map en el segundo. Si
 -- una clave del primero existe en el segundo, es reemplazada por la del primero.
