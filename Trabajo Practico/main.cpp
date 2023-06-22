@@ -6,8 +6,8 @@ using namespace std;
 
 int main(){
   TableroInfinito t = TInfInicial();
-  PonerNTInf(t, ROJO,  1);  PrintRepTInf(t); 
-  PonerNTInf(t, AZUL,  1); 
+  PonerNTInf(t, ROJO,  0);  PrintRepTInf(t);
+  PonerNTInf(t, AZUL,  1);
   MoverNTInf(t, OESTE, 1);
   PonerNTInf(t, VERDE, 1);  PrintRepTInf(t);
   MoverNTInf(t, OESTE, 4);

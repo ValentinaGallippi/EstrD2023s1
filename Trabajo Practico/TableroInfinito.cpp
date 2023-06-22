@@ -15,7 +15,12 @@ struct TableroInfinitoHeader {
   BiBST celdas; 
 }; 
 /* INV.REP.:
-  * x,y son siempre la coordenada de la posicion actual.  
+  * solamente son parte del BiBST los nodos que tienen por lo menos una bolita de algun color, o si es el nodo de la coordenada (0,0).
+*/
+
+/* OBSERVACIÓN:
+Al ser un tablero infinito, todas las celdas posibles son parte del tablero. Pero, solamente las celdas en las cuales hay por lo menos una bolita de un color forman parte del BiBST. 
+Por eso, los nodos son insertados cuando hay que añadir bolitas en la celda actual. El nodo con la coordenada (0,0) es el único que siempre esta.
 */
 
 //--------------------------------------------------------------------------

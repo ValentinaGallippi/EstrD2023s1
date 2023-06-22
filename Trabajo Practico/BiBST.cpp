@@ -8,9 +8,8 @@ using namespace std;
 // Invariante de representación
 //==========================================================================
 
-
 /* INV.REP.
-  * no puede haber 2 coordenadas que sean iguales dentro del BiBST. 
+  * dentro del BiBST no hay coordenadas repetidas. 
   * si x > kx && y > ky, entonces el nodo con la coordenada (x,y) va a estar en el la posicion 0 del array hijo, siendo el cuadrante NE.
   * si x > kx && y <= ky, entonces el nodo con la coordenada (x,y) va a estar en el la posicion 1 del array hijo, siendo el cuadrante SE. 
   * si x <= kx && y > ky, entonces el nodo con la coordenada (x,y) va a estar en el la posicion 2 del array hijo, siendo el cuadrante NO. 
@@ -58,7 +57,7 @@ BBNode* insertBBNode(BBNode* nodo, int x, int y) {
     nuevo->hijo[SE] = NULL;
     nuevo->hijo[NO] = NULL;
     nuevo->hijo[SO] = NULL;
-    if (nodo == EMPTYBB){
+    if (nodo == NULL){
       return nuevo;
     } else {
     BBNode* actual   = nodo;

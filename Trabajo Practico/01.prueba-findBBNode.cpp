@@ -9,9 +9,11 @@ void PonerDeColor(BBNode* n) {
 }
 
 int main() {
-    BBNode* nodo = insertBBNode(EMPTYBB,0,0);
-    BBNode*  nodox = insertBBNode(nodo,-1,0);
-    PonerDeColor(nodox);
+    BBNode* nodo = insertBBNode(EMPTYBB,2,3);
+    BBNode* nodo2 = insertBBNode(nodo,-1,-1);
+    BBNode* nodo3 = insertBBNode(nodo,-2,-3);
+    PrintBB(nodo);
+    LiberarBiBST(nodo);
     PrintBB(nodo);
 }
 
