@@ -10,10 +10,10 @@ using namespace std;
 
 /* INV.REP.
   * dentro del BiBST no hay coordenadas repetidas. 
-  * si x > kx && y > ky, entonces el nodo con la coordenada (x,y) va a estar en el cuadrante NE.
-  * si x > kx && y <= ky, entonces el nodo con la coordenada (x,y) va a estar en el cuadrante SE. 
-  * si x <= kx && y > ky, entonces el nodo con la coordenada (x,y) va a estar en el cuadrante NO. 
-  * si x <= kx && y <= ky, entonces el nodo con la coordenada (x,y) va a estar en el cuadrante SO. 
+  * si x > kx && y > ky, entonces el nodo con la coordenada (x,y) va a estar en el la posicion 0 del array hijo, siendo el cuadrante NE.
+  * si x > kx && y <= ky, entonces el nodo con la coordenada (x,y) va a estar en el la posicion 1 del array hijo, siendo el cuadrante SE. 
+  * si x <= kx && y > ky, entonces el nodo con la coordenada (x,y) va a estar en el la posicion 2 del array hijo, siendo el cuadrante NO. 
+  * si x <= kx && y <= ky, entonces el nodo con la coordenada (x,y) va a estar en el la posicion 3 del array hijo, siendo el cuadrante SO. 
 */
 
 //==========================================================================
@@ -34,8 +34,8 @@ Cuadrante indiceCuadrante(BBNode* nodo, int x,int y){
 }
 
 BBNode* findBBNode(BBNode* nodo, int x, int y) { 
-  if(nodo == EMPTYBB) {
-    return EMPTYBB;
+  if(nodo == NULL) {
+    return NULL;
   } else {
     if (x==nodo->kx && y==nodo->ky){
       return nodo; 
@@ -46,37 +46,47 @@ BBNode* findBBNode(BBNode* nodo, int x, int y) {
 }
 
 BBNode* insertBBNode(BBNode* nodo, int x, int y) {
-  if (nodo == EMPTYBB){
     BBNode* nuevo = new BBNode;
     nuevo->kx = x;
     nuevo->ky = y;
-    return nuevo;
-  } else {
+    nuevo->bolitas[ROJO] = 0;
+    nuevo->bolitas[VERDE]= 0;
+    nuevo->bolitas[NEGRO]= 0;
+    nuevo->bolitas[AZUL] = 0;
+    nuevo->hijo[NE] = NULL;
+    nuevo->hijo[SE] = NULL;
+    nuevo->hijo[NO] = NULL;
+    nuevo->hijo[SO] = NULL;
+    if (nodo == NULL){
+      return nuevo;
+    } else {
     BBNode* actual   = nodo;
-    BBNode* anterior = EMPTYBB;
-    while (actual!= EMPTYBB && (actual->kx!= x || actual->ky!=y)){
+    BBNode* anterior = NULL;
+    while (actual!= NULL && (actual->kx!= x || actual->ky!=y)){
       anterior = actual;
       actual   = actual->hijo[indiceCuadrante(actual,x,y)];
     } 
-    if (actual == EMPTYBB) {
-      BBNode* nuevo = new BBNode;
-      nuevo->kx = x;
-      nuevo->ky = y;
+    if (actual == NULL) {
       anterior->hijo[indiceCuadrante(anterior,x,y)] = nuevo;
       return nuevo;
     } else  {
       return actual;
     }
-  }
+    }
 }
 
 void LiberarBiBST(BiBST t) {
-  if (t!=EMPTYBB){
+  if (t=NULL){
+  delete t;
+  } else {
   LiberarBiBST(t->hijo[0]);
   LiberarBiBST(t->hijo[1]); 
   LiberarBiBST(t->hijo[2]); 
-  LiberarBiBST(t->hijo[3]);
-  delete t; 
+  LiberarBiBST(t->hijo[3]); 
+  delete t->hijo[0];
+  delete t->hijo[1];
+  delete t->hijo[2];
+  delete t->hijo[3];
   }
 }
 
@@ -84,7 +94,7 @@ void LiberarBiBST(BiBST t) {
 // Impresión para verificaciones
 //==========================================================================
 void PrintBBNode(BBNode* t, int tab) {
-  if (t == EMPTYBB) { return; }
+  if (t == NULL) { return; }
   INDENT(tab)
   cout << "  (" << t->kx << "," << t->ky << "): ";
   PRINTCOLORN(AZUL , t->bolitas[AZUL ]); 

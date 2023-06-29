@@ -15,7 +15,7 @@ struct TableroInfinitoHeader {
   BiBST celdas; 
 }; 
 /* INV.REP.:
-  * no tiene invariante de representacion.
+  --
 */
 
 //--------------------------------------------------------------------------
@@ -23,7 +23,7 @@ TableroInfinito TInfInicial(){
   TableroInfinitoHeader* tablero = new TableroInfinitoHeader;
   tablero->x = 0;
   tablero->y = 0;
-  tablero->celdas = EMPTYBB;
+  tablero->celdas = insertBBNode(EMPTYBB,0,0);
   return tablero;
 }
 
@@ -31,15 +31,16 @@ TableroInfinito TInfInicial(){
 void PonerNTInf(TableroInfinito t, Color color, int n){
   // PRECOND: el color es válido
   if (VALIDCOLOR(color)){
-    BiBST actual = insertBBNode(t->celdas,t->x,t->y);
-    actual->bolitas[color] += n;
-    if (t->celdas == EMPTYBB) {
-      t->celdas = actual;
+    BiBST actual = findBBNode(t->celdas,t->x,t->y);
+    if (actual == EMPTYBB){
+      actual = insertBBNode(t->celdas,t->x,t->y);
+      actual->bolitas[color] = n;
+    } else {
+      actual->bolitas[color] += n;
     }
-  } else {
-    BOOM("el color dado no es valido");
   }
 }
+
 //--------------------------------------------------------------------------
 void SacarNTInf(TableroInfinito t, Color color, int n){
   // PRECOND:
@@ -47,7 +48,9 @@ void SacarNTInf(TableroInfinito t, Color color, int n){
   //  * hay al menos n bolitas en la celda actual en t
   if (VALIDCOLOR(color)) {
     BiBST actual = findBBNode(t->celdas,t->x,t->y);
-    if (actual == EMPTYBB || actual->bolitas[color] < n) {
+    if (actual == EMPTYBB) {
+      BOOM("no hay la cantidad de bolitas dadas en la celda actual");
+    } else if (actual->bolitas[color] < n) {
       BOOM("no hay la cantidad de bolitas dadas en la celda actual");
     } else {
       actual->bolitas[color] -= n;
@@ -69,8 +72,6 @@ void MoverNTInf(TableroInfinito t, Dir dir, int n){
     } else if (dir == ESTE) {
       t->x += n;
     } 
-  } else {
-    BOOM("la direccion dada no es valida");
   }
 }
 
@@ -86,7 +87,7 @@ int nroBolitasTInf(TableroInfinito t, Color color) {
       return actual->bolitas[color];
     }
   } else {
-    BOOM("el color dado no es valido");
+    return 0; // el color no es valido
   }
 }
 
